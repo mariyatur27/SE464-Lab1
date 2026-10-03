@@ -31,11 +31,11 @@ export default class MySqlDB implements IDatabase {
 
   async queryRandomProduct() {
     const allProducts = await this.queryAllProducts();
-    return allProducts[Math.random() * (allProducts.length - 1)] as Product;
+    return allProducts[Math.floor(Math.random() * allProducts.length)] as Product;
   }
 
   queryAllProducts = async (category?: string) => {
-    let query = "SELECT * FROM categories";
+    let query = "SELECT * FROM products";
     const params: string[] = [];
 
     if (category) {
@@ -98,8 +98,8 @@ export default class MySqlDB implements IDatabase {
     for (const product of order.products) {
       await this.connection.query(
         `INSERT INTO order_items (orderId, productId)
-          VALUES (?, ?);`,
-        [order.id, product.id],
+          VALUES (?, ?, ?);`,
+        [order.id, product.productId, product.quantity],
       );
     }
   };
@@ -126,8 +126,8 @@ export default class MySqlDB implements IDatabase {
 
     await this.connection.query(
       `UPDATE users
-     SET ${fields.join(", ")}
-     WHERE id = ?`,
+       SET ${fields.join(", ")}
+       WHERE id = ?`,
       values,
     );
   };
