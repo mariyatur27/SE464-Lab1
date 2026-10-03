@@ -13,8 +13,9 @@ export default class DynamoDB implements IDatabase {
   };
 
   async queryRandomProduct() {
-    ///TODO: Implement this--replace the line below
-    return new Promise<Product>(() => { });
+    const allProducts = await this.queryAllProducts();
+    const index = Math.floor(Math.random() * (allProducts.length-1));
+    return allProducts[index];
   };
 
   async queryProductById(productId: string) {
@@ -30,8 +31,16 @@ export default class DynamoDB implements IDatabase {
   };
 
   async queryAllProducts(category?: string) {
-    ///TODO: Implement this--replace the line below
-    return new Promise<Product[]>(() => { });
+    const command = new ScanCommand({
+      TableName: "Products",
+      FilterExpression: category ? "categoryId = :category" : undefined, // Assuming this takes in a categoryId
+      ExpressionAttributeValues: {
+        ":category": category,
+      },
+    });
+
+    const response = await this.docClient.send(command);
+    return response.Items as Product[];
   };
 
   async queryAllCategories() {
@@ -52,7 +61,7 @@ export default class DynamoDB implements IDatabase {
     return response.Items as Order[];
   };
 
-  async queryOrdersByUser(userId) {
+  async queryOrdersByUser(userId: string) {
     const command = new ScanCommand({
       TableName: "Orders",
       FilterExpression: "userId = :userId",
@@ -65,7 +74,7 @@ export default class DynamoDB implements IDatabase {
     return response.Items as Order[];
   };
 
-  async queryOrderById(userId) {
+  async queryOrderById(userId: string) {
     const command = new GetCommand({
       TableName: "Orders",
       Key: {
@@ -77,7 +86,7 @@ export default class DynamoDB implements IDatabase {
     return response.Item as Order;
   };
 
-  async queryUserById(userId) {
+  async queryUserById(userId: string) {
     const command = new GetCommand({
       TableName: "Users",
       Key: {
@@ -103,13 +112,32 @@ export default class DynamoDB implements IDatabase {
   };
 
   async insertOrder(order: Order): Promise<void> {
-    ///TODO: Implement this--replace the line below. Make sure the deleteOrder is called after insertOrder. You can use "await".
-    return new Promise<void>(() => { });
+    const command = new PutCommand({
+      TableName: "Order",
+      Item: order,
+    });
+
+    command
   }
 
   async updateUser(patch: UserPatchRequest): Promise<void> {
-    ///TODO: Implement this--replace the line below
-    return new Promise<void>(() => { });
+    const command = new UpdateCommand({
+      TableName: "User",
+      Key: {
+        id: patch.id,
+      },
+      AttributeUpdates: {
+        email: {
+          Value: patch.email
+        },
+        password: {
+          Value: patch.password
+        },
+      }
+      
+    })
+
+    command
   };
 
   // This is to delete the inserted order to avoid database data being contaminated also to make the data in database consistent with that in the json files so the comparison will return true.
