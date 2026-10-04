@@ -3,6 +3,14 @@ import { IDatabase } from "../interfaces";
 import { Category, Order, User, UserPatchRequest } from "../types";
 import mysql from "mysql2/promise";
 
+const generateUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 export default class MySqlDB implements IDatabase {
   connection: mysql.Connection;
 
@@ -99,7 +107,7 @@ export default class MySqlDB implements IDatabase {
       await this.connection.query(
         `INSERT INTO order_items (id, orderId, productId, quantity)
           VALUES (?, ?, ?, ?);`,
-        [crypto.randomUUID(), order.id, product.productId, product.quantity],
+        [generateUUID(), order.id, product.productId, product.quantity],
       );
     }
   };
