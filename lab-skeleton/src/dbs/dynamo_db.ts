@@ -12,7 +12,7 @@ export default class DynamoDB implements IDatabase {
     console.log("DynamoDB connected!");
   };
 
-  async queryRandomProduct() {
+  async queryRandomProduct() { // Our code
     const allProducts = await this.queryAllProducts();
     const index = Math.floor(Math.random() * (allProducts.length-1));
     return allProducts[index];
@@ -30,14 +30,15 @@ export default class DynamoDB implements IDatabase {
     return response.Item as Product;
   };
 
-  async queryAllProducts(category?: string) {
-    const command = new ScanCommand({
+  async queryAllProducts(category?: string) { // Our code
+    let command = new ScanCommand({
       TableName: "Products",
-      FilterExpression: category ? "categoryId = :category" : undefined, // Assuming this takes in a categoryId
-      ExpressionAttributeValues: {
-        ":category": category,
-      },
     });
+
+    if (category) {
+      command.input.FilterExpression = "categoryId = :category";
+      command.input.ExpressionAttributeValues = { ":category": category };
+    }
 
     const response = await this.docClient.send(command);
     return response.Items as Product[];
@@ -111,16 +112,16 @@ export default class DynamoDB implements IDatabase {
     return response.Items as User[];
   };
 
-  async insertOrder(order: Order): Promise<void> {
+  async insertOrder(order: Order): Promise<void> { // Our code
     const command = new PutCommand({
       TableName: "Order",
       Item: order,
     });
 
-    command
+    await this.docClient.send(command);
   }
 
-  async updateUser(patch: UserPatchRequest): Promise<void> {
+  async updateUser(patch: UserPatchRequest): Promise<void> { // Our code
     const command = new UpdateCommand({
       TableName: "User",
       Key: {
@@ -137,7 +138,7 @@ export default class DynamoDB implements IDatabase {
       
     })
 
-    command
+    await this.docClient.send(command);
   };
 
   // This is to delete the inserted order to avoid database data being contaminated also to make the data in database consistent with that in the json files so the comparison will return true.
