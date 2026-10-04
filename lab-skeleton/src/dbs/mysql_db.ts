@@ -97,9 +97,9 @@ export default class MySqlDB implements IDatabase {
 
     for (const product of order.products) {
       await this.connection.query(
-        `INSERT INTO order_items (orderId, productId, quantity)
-          VALUES (?, ?, ?);`,
-        [order.id, product.productId, product.quantity],
+        `INSERT INTO order_items (id, orderId, productId, quantity)
+          VALUES (?, ?, ?, ?);`,
+        [crypto.randomUUID(), order.id, product.productId, product.quantity],
       );
     }
   };
