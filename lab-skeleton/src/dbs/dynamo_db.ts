@@ -127,16 +127,34 @@ export default class DynamoDB implements IDatabase {
       Key: {
         id: patch.id,
       },
-      AttributeUpdates: {
+    })
+
+    if (patch.email && patch.password) { // This code is bad, but it works (I have not used typescript in a year)
+      command.input.AttributeUpdates = {
         email: {
+          Action: "PUT",
           Value: patch.email
         },
         password: {
+          Action: "PUT",
           Value: patch.password
         },
       }
-      
-    })
+    } else if (patch.email) {
+      command.input.AttributeUpdates = {
+        email: {
+          Action: "PUT",
+          Value: patch.email
+        },
+      }
+    } else if (patch.password) {
+      command.input.AttributeUpdates = {
+        password: {
+          Action: "PUT",
+          Value: patch.password
+        },
+      }
+    }
 
     await this.docClient.send(command);
   };
