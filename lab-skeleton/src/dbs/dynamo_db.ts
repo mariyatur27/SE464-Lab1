@@ -114,7 +114,7 @@ export default class DynamoDB implements IDatabase {
 
   async insertOrder(order: Order): Promise<void> { // Our code
     const command = new PutCommand({
-      TableName: "Order",
+      TableName: "Orders",
       Item: order,
     });
 
@@ -123,7 +123,7 @@ export default class DynamoDB implements IDatabase {
 
   async updateUser(patch: UserPatchRequest): Promise<void> { // Our code
     const command = new UpdateCommand({
-      TableName: "User",
+      TableName: "Users",
       Key: {
         id: patch.id,
       },
