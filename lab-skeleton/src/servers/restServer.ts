@@ -28,9 +28,27 @@ export default class RestServer implements IServer {
     this.server.use(morgan("tiny"));
     this.server.use(bodyParser.json());
 
-    this.server.get("/", (req: express.Request, res: express.Response) =>
-      res.send("Hello, World!"),
-    );
+
+    let requestCount = 0;
+
+    this.server.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+      requestCount++;
+
+      logger.info("Incoming request", {
+        method: req.method,
+        endpoint: req.path,
+        query: req.query,
+        params: req.params,
+        totalRequests: requestCount,
+      });
+
+      next();
+    });
+
+    this.server.get("/", (req: express.Request, res: express.Response) => {
+      logger.info("GET / endpoint accessed");
+      res.send("Hello, World!");
+    });
 
     this.server.get(
       "/product/:productId",
@@ -41,6 +59,7 @@ export default class RestServer implements IServer {
           return;
         }
         const product = await this.db.queryProductById(productId);
+        logger.info("Product retrieved", { productId });
         res.send(product);
       },
     ); // Gets a product by product id
@@ -49,6 +68,7 @@ export default class RestServer implements IServer {
       "/randomproduct",
       async (req: express.Request, res: express.Response) => {
         const randProd = await this.db.queryRandomProduct();
+        logger.info("Random product retrieved");
         res.send(randProd);
       },
     ); // I'm feeling lucky type
@@ -58,6 +78,7 @@ export default class RestServer implements IServer {
       async (req: express.Request, res: express.Response) => {
         const { categoryId } = req.query as AllProductsRequest;
         const products = await this.db.queryAllProducts(categoryId);
+        logger.info("Products retrieved", { categoryId });
         res.send(products);
       },
     ); // Gets all products, or by category
@@ -66,6 +87,7 @@ export default class RestServer implements IServer {
       "/categories",
       async (req: express.Request, res: express.Response) => {
         const categories = await this.db.queryAllCategories();
+        logger.info("Categories retrieved");
         res.send(categories);
       },
     ); // Gets all categories
@@ -74,6 +96,7 @@ export default class RestServer implements IServer {
       "/allorders",
       async (req: express.Request, res: express.Response) => {
         const orders = await this.db.queryAllOrders();
+        logger.info("All orders retrieved");
         res.send(orders);
       },
     ); // Gets all orders
@@ -87,6 +110,7 @@ export default class RestServer implements IServer {
           return;
         }
         const orders = await this.db.queryOrdersByUser(id);
+        logger.info("User orders retrieved", { userId: id });
         res.send(orders);
       },
     ); // Gets all of a single user's orders
@@ -100,6 +124,7 @@ export default class RestServer implements IServer {
           return;
         }
         const order = await this.db.queryOrderById(id);
+        logger.info("Order retrieved", { orderId: id });
         res.send(order);
       },
     ); // Gets more details on a specific order by id
@@ -113,6 +138,7 @@ export default class RestServer implements IServer {
           return;
         }
         const user = await this.db.queryUserById(id);
+        logger.info("User retrieved", { userId: id });
         res.send(user);
       },
     ); // Gets details on a specific user by username
@@ -121,6 +147,7 @@ export default class RestServer implements IServer {
       "/users",
       async (_req: express.Request, res: express.Response) => {
         const users = await this.db.queryAllUsers();
+        logger.info("All users retrieved");
         res.send(users);
       },
     ); // Gets all users
@@ -130,6 +157,7 @@ export default class RestServer implements IServer {
       async (req: express.Request, res: express.Response) => {
         const order = req.body as Order;
         const response = await this.db.insertOrder(order);
+        logger.info("New order created");
         res.send(response);
       },
     ); // Creates a new order
@@ -144,6 +172,7 @@ export default class RestServer implements IServer {
           id: userId,
         };
         const response = await this.db.updateUser(patch);
+        logger.info("User updated", { userId });
         res.send(response);
       },
     ); // Updates a user's email or password
@@ -158,9 +187,10 @@ export default class RestServer implements IServer {
         }
         try {
           await this.db.deleteOrder(id);
+          logger.info("Order deleted", { orderId: id });
           res.status(204).send(); // No Content
         } catch (error) {
-          console.error(`Error deleting order with id ${id}:`, error);
+          logger.info(`Error deleting order with id ${id}:`, error);
           res.status(500).send({ error: "Failed to delete order" });
         }
       },
