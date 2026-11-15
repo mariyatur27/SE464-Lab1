@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+service App {
+    rpc GetProduct (ProductRequest) returns (Product) {}
+
+    rpc GetRandomProduct (EmptyRequest) returns (Product) {}
+
+    rpc GetAllProducts (AllProductsRequest) returns (Products) {}
+
+    rpc GetAllCategories (EmptyRequest) returns (Categories) {}
+
+    rpc GetAllOrders (EmptyRequest) returns (Orders) {}
+
+    rpc GetAllUserOrders (UserRequest) returns (Orders) {}
+
+    rpc GetOrder (OrderRequest) returns (Order) {}
+
+    rpc GetUser (UserRequest) returns (User) {}
+
+    rpc GetAllUsers (EmptyRequest) returns (Users) {}
+
+    rpc PostOrder (Order) returns (Order) {}
+
+    rpc PatchAccountDetails (UserPatchRequest) returns (User) {}
+
+    rpc DeleteOrder(OrderRequest) returns (EmptyResponse);
+}
+
+message EmptyRequest {}
+
+message EmptyResponse {}
+
+// Products
+
+message AllProductsRequest {
+    optional string category_id = 1;
+}
+
+message ProductRequest {
+    string product_id = 1;
+}
+
+message Product {
+    string category_id = 1;
+    int64 stock = 3;
+    int64 price = 4;
+    string description = 5;
+    string id = 6;
+    string name = 7;
+}
+
+message Products {
+    repeated Product products = 1;
+}
+
+
+// Orders
+
+message OrderProduct {
+    string product_id = 1;
+    int64 quantity = 2;
+}
+
+message Order {
+    string user_id = 1;
+    string id = 2;
+    repeated OrderProduct products = 3;
+    int64 total_amount = 4;
+}
+
+message OrderRequest {
+    string id = 1;
+}
+
+message Orders {
+    repeated Order orders = 1;
+}
+
+// Categories
+
+message Category {
+    string description = 1;
+    string id = 2;
+    string name = 3;
+}
+
+message Categories {
+    repeated Category categories = 1;
+}
+
+// Users
+message UserRequest {
+    string id = 1;
+}
+
+message UserPatchRequest {
+    string id = 1;                  // We assign user a unique ID, this shouldn't be changed. Following fields can be changed
+    string email = 2;
+    string password = 3;
+}
+
+message User {
+    string id = 1;
+    string email = 2;
+    string name = 3;
+}
+
+message Users {
+    repeated User users = 1;
+}

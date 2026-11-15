@@ -12,9 +12,10 @@ export default class DynamoDB implements IDatabase {
     console.log("DynamoDB connected!");
   };
 
-  async queryRandomProduct() {
-    ///TODO: Implement this--replace the line below
-    return new Promise<Product>(() => { });
+  async queryRandomProduct() { // Our code
+    const allProducts = await this.queryAllProducts();
+    const index = Math.floor(Math.random() * (allProducts.length-1));
+    return allProducts[index];
   };
 
   async queryProductById(productId: string) {
@@ -29,9 +30,18 @@ export default class DynamoDB implements IDatabase {
     return response.Item as Product;
   };
 
-  async queryAllProducts(category?: string) {
-    ///TODO: Implement this--replace the line below
-    return new Promise<Product[]>(() => { });
+  async queryAllProducts(category?: string) { // Our code
+    let command = new ScanCommand({
+      TableName: "Products",
+    });
+
+    if (category) {
+      command.input.FilterExpression = "categoryId = :category";
+      command.input.ExpressionAttributeValues = { ":category": category };
+    }
+
+    const response = await this.docClient.send(command);
+    return response.Items as Product[];
   };
 
   async queryAllCategories() {
@@ -52,7 +62,7 @@ export default class DynamoDB implements IDatabase {
     return response.Items as Order[];
   };
 
-  async queryOrdersByUser(userId) {
+  async queryOrdersByUser(userId: string) {
     const command = new ScanCommand({
       TableName: "Orders",
       FilterExpression: "userId = :userId",
@@ -65,7 +75,7 @@ export default class DynamoDB implements IDatabase {
     return response.Items as Order[];
   };
 
-  async queryOrderById(userId) {
+  async queryOrderById(userId: string) {
     const command = new GetCommand({
       TableName: "Orders",
       Key: {
@@ -77,7 +87,7 @@ export default class DynamoDB implements IDatabase {
     return response.Item as Order;
   };
 
-  async queryUserById(userId) {
+  async queryUserById(userId: string) {
     const command = new GetCommand({
       TableName: "Users",
       Key: {
@@ -102,14 +112,51 @@ export default class DynamoDB implements IDatabase {
     return response.Items as User[];
   };
 
-  async insertOrder(order: Order): Promise<void> {
-    ///TODO: Implement this--replace the line below. Make sure the deleteOrder is called after insertOrder. You can use "await".
-    return new Promise<void>(() => { });
+  async insertOrder(order: Order): Promise<void> { // Our code
+    const command = new PutCommand({
+      TableName: "Orders",
+      Item: order,
+    });
+
+    await this.docClient.send(command);
   }
 
-  async updateUser(patch: UserPatchRequest): Promise<void> {
-    ///TODO: Implement this--replace the line below
-    return new Promise<void>(() => { });
+  async updateUser(patch: UserPatchRequest): Promise<void> { // Our code
+    const command = new UpdateCommand({
+      TableName: "Users",
+      Key: {
+        id: patch.id,
+      },
+    })
+
+    if (patch.email && patch.password) { // This code is bad, but it works (I have not used typescript in a year)
+      command.input.AttributeUpdates = {
+        email: {
+          Action: "PUT",
+          Value: patch.email
+        },
+        password: {
+          Action: "PUT",
+          Value: patch.password
+        },
+      }
+    } else if (patch.email) {
+      command.input.AttributeUpdates = {
+        email: {
+          Action: "PUT",
+          Value: patch.email
+        },
+      }
+    } else if (patch.password) {
+      command.input.AttributeUpdates = {
+        password: {
+          Action: "PUT",
+          Value: patch.password
+        },
+      }
+    }
+
+    await this.docClient.send(command);
   };
 
   // This is to delete the inserted order to avoid database data being contaminated also to make the data in database consistent with that in the json files so the comparison will return true.

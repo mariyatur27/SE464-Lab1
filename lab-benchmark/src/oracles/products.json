@@ -1,0 +1,306 @@
+[
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 183,
+        "description": "Socks for sale",
+        "id": "c21a4257-afe6-4447-ab6a-d29618ee8d8d",
+        "price": 4,
+        "name": "Socks"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 67,
+        "description": "Skirt for sale",
+        "id": "b0b7c66e-5be4-460f-afef-43bc0d8e0dfc",
+        "price": 8,
+        "name": "Skirt"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 177,
+        "description": "Vanity for sale",
+        "id": "94983fec-470b-4105-a113-d75830cce0ab",
+        "price": 10,
+        "name": "Vanity"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 38,
+        "description": "Underwear for sale",
+        "id": "76877de1-cc00-4347-b4d9-57125e4cea2e",
+        "price": 3,
+        "name": "Underwear"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 123,
+        "description": "Leggings for sale",
+        "id": "89a8e8e3-f62b-4082-8105-3ad994fd94cd",
+        "price": 9,
+        "name": "Leggings"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 153,
+        "description": "Cabinet for sale",
+        "id": "8165bf7a-d3c7-466e-862d-babd9deb8001",
+        "price": 7,
+        "name": "Cabinet"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 193,
+        "description": "Sweater for sale",
+        "id": "27254a5c-ac7a-4031-8d02-0ff2834f6bd3",
+        "price": 12,
+        "name": "Sweater"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 116,
+        "description": "Chair for sale",
+        "id": "2d1345eb-d630-48a8-9307-0f71bc8380e8",
+        "price": 19,
+        "name": "Chair"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 32,
+        "description": "Desk for sale",
+        "id": "fdfb3bc5-4684-478a-86c9-0e34a4db42f8",
+        "price": 2,
+        "name": "Desk"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 123,
+        "description": "Jeans for sale",
+        "id": "8a9e5bda-ad32-47fd-842b-773c5c5b67f7",
+        "price": 13,
+        "name": "Jeans"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 35,
+        "description": "Bench for sale",
+        "id": "19b006ff-c340-4151-916a-dbbbcb717ddc",
+        "price": 11,
+        "name": "Bench"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 83,
+        "description": "Shoes for sale",
+        "id": "9a438b65-a653-4408-802f-27ce83048606",
+        "price": 17,
+        "name": "Shoes"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 37,
+        "description": "Dining-table for sale",
+        "id": "4e544aa2-9fb8-4fc3-9b5f-1efe995983b4",
+        "price": 6,
+        "name": "Dining-table"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 169,
+        "description": "Coat for sale",
+        "id": "8b4dec03-c4a6-469a-b514-6705f01df75e",
+        "price": 10,
+        "name": "Coat"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 9,
+        "description": "Shorts for sale",
+        "id": "56f03f7c-9111-44a3-bdd2-2457252034f3",
+        "price": 6,
+        "name": "Shorts"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 198,
+        "description": "Shirt for sale",
+        "id": "fffdf35d-2ba9-41f3-823f-01cd094965e0",
+        "price": 7,
+        "name": "Shirt"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 160,
+        "description": "T-shirt for sale",
+        "id": "e395da27-185b-4404-937e-82bec997c274",
+        "price": 18,
+        "name": "T-shirt"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 170,
+        "description": "Hat for sale",
+        "id": "1efaecf3-56fb-4abc-8fa6-8cc0520c15c3",
+        "price": 3,
+        "name": "Hat"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 148,
+        "description": "Sideboard for sale",
+        "id": "6557a4a9-c06b-4c43-9b81-16453ef20a13",
+        "price": 13,
+        "name": "Sideboard"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 45,
+        "description": "Dress for sale",
+        "id": "ab8cd362-6dbd-4fd5-a2bc-6db57ec5b59d",
+        "price": 11,
+        "name": "Dress"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 18,
+        "description": "Shelves for sale",
+        "id": "cfd91268-4da5-4fa7-ad23-4b8763477a2c",
+        "price": 4,
+        "name": "Shelves"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 13,
+        "description": "Drawers for sale",
+        "id": "62071cbb-1d66-40f3-9a03-7ec4df782a1f",
+        "price": 3,
+        "name": "Drawers"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 162,
+        "description": "Ottoman for sale",
+        "id": "d24e729f-3111-4364-a3d2-210c5da3febb",
+        "price": 4,
+        "name": "Ottoman"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 31,
+        "description": "Bench for sale",
+        "id": "95ebdf10-bd0e-4288-b450-46fefd3204af",
+        "price": 2,
+        "name": "Bench"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 199,
+        "description": "Lamp for sale",
+        "id": "bd884af0-b42a-45bb-b0b4-7156219caecd",
+        "price": 6,
+        "name": "Lamp"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 60,
+        "description": "Blouse for sale",
+        "id": "16fe8ae3-21de-41b7-8a9b-df461feff8b1",
+        "price": 3,
+        "name": "Blouse"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 180,
+        "description": "Suit for sale",
+        "id": "bb33bf85-ddab-4f2e-b186-e478c90ea1a9",
+        "price": 17,
+        "name": "Suit"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 91,
+        "description": "Scarf for sale",
+        "id": "5d60a4e5-a052-4589-88c7-19fbf7745f98",
+        "price": 17,
+        "name": "Scarf"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 189,
+        "description": "Nightstand for sale",
+        "id": "96dcddba-6f77-4f24-aaef-15b9a8f6807e",
+        "price": 11,
+        "name": "Nightstand"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 1,
+        "description": "Sofa for sale",
+        "id": "5d0f6935-d94f-44d4-95d0-fdab6b5b50a4",
+        "price": 11,
+        "name": "Sofa"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 141,
+        "description": "Bed for sale",
+        "id": "be78d5a2-774a-480c-8370-0d1a4e4a62c1",
+        "price": 18,
+        "name": "Bed"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 173,
+        "description": "Dresser for sale",
+        "id": "522f3760-5875-4712-978f-c00d37f03f27",
+        "price": 7,
+        "name": "Dresser"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 18,
+        "description": "Jacket for sale",
+        "id": "cd8bfb4c-7cd2-42a4-9705-e6a35f1a79aa",
+        "price": 12,
+        "name": "Jacket"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 144,
+        "description": "Tie for sale",
+        "id": "e339b9e2-729a-430d-9426-06ee042e242d",
+        "price": 13,
+        "name": "Tie"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 86,
+        "description": "Pants for sale",
+        "id": "2ec90391-a901-4ece-92d6-8328e3546e24",
+        "price": 15,
+        "name": "Pants"
+    },
+    {
+        "categoryId": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "stock": 162,
+        "description": "Hoodie for sale",
+        "id": "1de8bff6-6986-4a95-ae8b-7bd41296f3ae",
+        "price": 9,
+        "name": "Hoodie"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 100,
+        "description": "Bookshelf for sale",
+        "id": "0b5982ed-f5de-48fb-939f-0e4658282523",
+        "price": 14,
+        "name": "Bookshelf"
+    },
+    {
+        "categoryId": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "stock": 169,
+        "description": "Wardrobe for sale",
+        "id": "3fdb58ff-b4ce-4a25-8457-1ea0f38e1831",
+        "price": 6,
+        "name": "Wardrobe"
+    }
+]

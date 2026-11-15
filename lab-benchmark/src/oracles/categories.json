@@ -1,0 +1,12 @@
+[
+    {
+        "description": "Check out our clothing line.",
+        "id": "84ba248e-9353-4bc3-956d-71d7c5669bb0",
+        "name": "clothing"
+    },
+    {
+        "description": "Check out our furniture line.",
+        "id": "72b50752-e3b1-4345-b3b0-d16cb4d4f48e",
+        "name": "furniture"
+    }
+]

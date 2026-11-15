@@ -3,6 +3,14 @@ import { IDatabase } from "../interfaces";
 import { Category, Order, User, UserPatchRequest } from "../types";
 import mysql from "mysql2/promise";
 
+const generateUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 export default class MySqlDB implements IDatabase {
   connection: mysql.Connection;
 
@@ -22,36 +30,49 @@ export default class MySqlDB implements IDatabase {
   }
 
   async queryProductById(productId) {
-    return (await this.connection.query(`SELECT *
+    return (
+      await this.connection.query(`SELECT *
                                 FROM products
-                                WHERE id = "${productId}";`))[0][0] as Product;
-  };
+                                WHERE id = "${productId}";`)
+    )[0][0] as Product;
+  }
 
   async queryRandomProduct() {
-    ///TODO: Implement this
-    return this.connection.query('') as unknown as Product;
-  };
+    const allProducts = await this.queryAllProducts();
+    return allProducts[Math.floor(Math.random() * allProducts.length)] as Product;
+  }
 
   queryAllProducts = async (category?: string) => {
-    ///TODO: Implement this
-    return this.connection.query('') as unknown as Product[];
+    let query = "SELECT * FROM products";
+    const params: string[] = [];
+
+    if (category) {
+      query += " WHERE category = ?";
+      params.push(category);
+    }
+
+    query += ";";
+
+    return (await this.connection.query(query, params))[0] as Product[];
   };
 
   queryAllCategories = async () => {
-    return (await this.connection.query("SELECT * FROM categories;"))[0] as Category[];
+    return (
+      await this.connection.query("SELECT * FROM categories;")
+    )[0] as Category[];
   };
 
   queryAllOrders = async () => {
-    ///TODO: Implement this
-    return (await this.connection.query(""))[0] as Order[];
+    return (await this.connection.query(`SELECT * FROM orders;`))[0] as Order[];
   };
 
   async queryOrdersByUser(id: string) {
-    ///TODO: Implement this
     return (
-      await this.connection.query('')
-    )[0] as Order[]; // Not a perfect analog for NoSQL, since SQL cannot return a list.
-  };
+      await this.connection.query(`SELECT *
+                             FROM orders
+                             WHERE userId = "${id}"`)
+    )[0] as Order[];
+  }
 
   queryOrderById = async (id: string) => {
     return (
@@ -70,27 +91,61 @@ export default class MySqlDB implements IDatabase {
   };
 
   queryAllUsers = async () => {
-    return (await this.connection.query("SELECT id, name, email FROM users"))[0] as User[];
+    return (
+      await this.connection.query("SELECT id, name, email FROM users")
+    )[0] as User[];
   };
 
   insertOrder = async (order: Order) => {
-    ///TODO: Implement this
+    await this.connection.query(
+      `INSERT INTO orders (id, userId, totalAmount)
+        VALUES (?, ?, ?);`,
+      [order.id, order.userId, order.totalAmount],
+    );
+
+    for (const product of order.products) {
+      await this.connection.query(
+        `INSERT INTO order_items (id, orderId, productId, quantity)
+          VALUES (?, ?, ?, ?);`,
+        [generateUUID(), order.id, product.productId, product.quantity],
+      );
+    }
   };
 
   updateUser = async (patch: UserPatchRequest) => {
-    ///TODO: Implement this
+    const fields: string[] = [];
+    const values: string[] = [];
+
+    if (patch.email !== undefined) {
+      fields.push("email = ?");
+      values.push(patch.email);
+    }
+
+    if (patch.password !== undefined) {
+      fields.push("password = ?");
+      values.push(patch.password);
+    }
+
+    if (fields.length === 0) {
+      return;
+    }
+
+    values.push(patch.id);
+
+    await this.connection.query(
+      `UPDATE users
+       SET ${fields.join(", ")}
+       WHERE id = ?`,
+      values,
+    );
   };
 
   // This is to delete the inserted order to avoid database data being contaminated also to make the data in database consistent with that in the json files so the comparison will return true.
   // Feel free to modify this based on your inserOrder implementation
   deleteOrder = async (id: string) => {
-    await this.connection.query(
-      `DELETE FROM order_items WHERE orderId = ?`,
-      [id]
-    );
-    await this.connection.query(
-      `DELETE FROM orders WHERE id = ?`,
-      [id]
-    );
+    await this.connection.query(`DELETE FROM order_items WHERE orderId = ?`, [
+      id,
+    ]);
+    await this.connection.query(`DELETE FROM orders WHERE id = ?`, [id]);
   };
 };
