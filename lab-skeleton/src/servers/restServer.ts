@@ -28,22 +28,27 @@ export default class RestServer implements IServer {
     this.server.use(morgan("tiny"));
     this.server.use(bodyParser.json());
 
-
     let requestCount = 0;
 
-    this.server.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      requestCount++;
+    this.server.use(
+      (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction,
+      ) => {
+        requestCount++;
 
-      logger.info("Incoming request", {
-        method: req.method,
-        endpoint: req.path,
-        query: req.query,
-        params: req.params,
-        totalRequests: requestCount,
-      });
+        logger.info("Incoming request", {
+          method: req.method,
+          endpoint: req.path,
+          query: req.query,
+          params: req.params,
+          totalRequests: requestCount,
+        });
 
-      next();
-    });
+        next();
+      },
+    );
 
     this.server.get("/", (req: express.Request, res: express.Response) => {
       logger.info("GET / endpoint accessed");
@@ -55,6 +60,7 @@ export default class RestServer implements IServer {
       async (req: express.Request, res: express.Response) => {
         const { productId } = req.params as ProductRequest;
         if (!productId) {
+          logger.info("Status 400: No product id provided");
           res.status(400).send("No product id provided");
           return;
         }
@@ -68,7 +74,7 @@ export default class RestServer implements IServer {
       "/randomproduct",
       async (req: express.Request, res: express.Response) => {
         const randProd = await this.db.queryRandomProduct();
-        logger.info("Random product retrieved");
+        logger.info("Random product retrieved", { randProd });
         res.send(randProd);
       },
     ); // I'm feeling lucky type
@@ -87,7 +93,7 @@ export default class RestServer implements IServer {
       "/categories",
       async (req: express.Request, res: express.Response) => {
         const categories = await this.db.queryAllCategories();
-        logger.info("Categories retrieved");
+        logger.info("Categories retrieved", { categories });
         res.send(categories);
       },
     ); // Gets all categories
@@ -96,7 +102,7 @@ export default class RestServer implements IServer {
       "/allorders",
       async (req: express.Request, res: express.Response) => {
         const orders = await this.db.queryAllOrders();
-        logger.info("All orders retrieved");
+        logger.info("All orders retrieved", { orders });
         res.send(orders);
       },
     ); // Gets all orders
@@ -107,6 +113,7 @@ export default class RestServer implements IServer {
         const { id } = req.query as UserRequest;
         if (!id) {
           res.status(400).send("No user id provided");
+          logger.info("Status 400: No user id provided");
           return;
         }
         const orders = await this.db.queryOrdersByUser(id);
@@ -121,10 +128,11 @@ export default class RestServer implements IServer {
         const { id } = req.params as OrderRequest;
         if (!id) {
           res.status(400).send("No order id provided");
+          logger.info("Status 400: No order id provided");
           return;
         }
         const order = await this.db.queryOrderById(id);
-        logger.info("Order retrieved", { orderId: id });
+        logger.info("Order retrieved", { order: order });
         res.send(order);
       },
     ); // Gets more details on a specific order by id
@@ -135,10 +143,11 @@ export default class RestServer implements IServer {
         const { id } = req.params as UserRequest;
         if (!id) {
           res.status(400).send("No user id provided");
+          logger.info("Status 400: No user id provided");
           return;
         }
         const user = await this.db.queryUserById(id);
-        logger.info("User retrieved", { userId: id });
+        logger.info("User retrieved", { user: user });
         res.send(user);
       },
     ); // Gets details on a specific user by username
@@ -147,7 +156,7 @@ export default class RestServer implements IServer {
       "/users",
       async (_req: express.Request, res: express.Response) => {
         const users = await this.db.queryAllUsers();
-        logger.info("All users retrieved");
+        logger.info("All users retrieved", { users });
         res.send(users);
       },
     ); // Gets all users
@@ -157,7 +166,7 @@ export default class RestServer implements IServer {
       async (req: express.Request, res: express.Response) => {
         const order = req.body as Order;
         const response = await this.db.insertOrder(order);
-        logger.info("New order created");
+        logger.info("New order created", { response });
         res.send(response);
       },
     ); // Creates a new order
@@ -183,6 +192,7 @@ export default class RestServer implements IServer {
         const { id } = req.params as OrderRequest;
         if (!id) {
           res.status(400).send("No order id provided");
+          logger.info("Status 400: No order id provided");
           return;
         }
         try {
