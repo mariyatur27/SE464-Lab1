@@ -2,14 +2,15 @@ import { Product } from "../compiled_proto/app";
 import { IDatabase } from "../interfaces";
 import { Category, Order, User, UserPatchRequest } from "../types";
 import mysql from "mysql2/promise";
+import logger from "../logger";
 
 const generateUUID = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
-}
+};
 
 export default class MySqlDB implements IDatabase {
   connection: mysql.Connection;
@@ -22,7 +23,7 @@ export default class MySqlDB implements IDatabase {
       port: parseInt(process.env.RDS_PORT), // Convert port to a number
       database: process.env.RDS_DATABASE,
     });
-    console.log("MySQL connected!");
+    logger.info("MySQL connected!");
   }
 
   constructor() {
@@ -39,7 +40,9 @@ export default class MySqlDB implements IDatabase {
 
   async queryRandomProduct() {
     const allProducts = await this.queryAllProducts();
-    return allProducts[Math.floor(Math.random() * allProducts.length)] as Product;
+    return allProducts[
+      Math.floor(Math.random() * allProducts.length)
+    ] as Product;
   }
 
   queryAllProducts = async (category?: string) => {
@@ -148,4 +151,4 @@ export default class MySqlDB implements IDatabase {
     ]);
     await this.connection.query(`DELETE FROM orders WHERE id = ?`, [id]);
   };
-};
+}
